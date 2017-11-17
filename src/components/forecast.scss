@@ -1,0 +1,29 @@
+$boxShadow: rgba(0, 0, 0, .18);
+$back: #f2f2f2;
+.forecast {
+  $root: ".forecast";
+    max-width: 1024px;
+    margin: 0 auto;
+  .days {
+    display: flex;
+  }
+  .day {
+    min-height: 150px;
+    background: $back;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px boxShadow;
+    &.active {
+      background: red;
+    }
+  }
+  .day-foracast {
+    display: none;
+    box-shadow: 2px 2px 3px boxShadow;
+    border-radius: 5px;
+    min-height: 300px;
+    background: $back;
+    &.active {
+      display: flex;
+    }
+  }
+}
