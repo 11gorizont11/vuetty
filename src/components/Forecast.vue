@@ -1,5 +1,11 @@
 <template>
-    <div class="forecast">
+<div class="container">
+   <form class="search-box" @submit="handleSubmitForm">
+            <input type="text" v-model="cityName" placeholder="Enter City">
+            <input type="submit" value="Search">
+        </form>
+      <p v-if="!items.length">NO city Yet</p>
+      <div class="forecast" v-if="items.length">
         <div class="days">
            <div :class="[{active: item.id === activeDay }, 'day']" 
                 v-for="item in items" :key="item.id" :style="{ width: dayTabWidth }"
@@ -13,19 +19,21 @@
             <h5>{{item.data}}</h5>
         </div>
     </div>
+</div>
+
 </template>
 
 <script>
+import Utils from '../utils';
+
 export default {
   name: 'Forecast',
   data() {
     return {
-      items: [
-      { day: 'monday', id: 1, date: 14, data: 'some forecast 1' },
-      { day: 'thursday', id: 2, date: 15, data: 'some forecast 2' },
-      { day: 'wednesday', id: 3, date: 16, data: 'some forecast 3' },
-      ],
+      items: [],
       activeDay: 1,
+      cityName: '',
+      city: {},
     };
   },
 
@@ -36,6 +44,15 @@ export default {
   methods: {
     handleActiveDay(dayId) {
       this.activeDay = dayId;
+    },
+    handleSubmitForm(event) {
+      event.preventDefault();
+      Utils.getForecastByCityName(this.cityName).then((data) => {
+        // eslint-disable-next-line
+        console.log(data);
+        this.city = data.city;
+        this.items = data.list;
+      });
     },
   },
 };
