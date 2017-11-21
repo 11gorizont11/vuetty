@@ -25,7 +25,8 @@
 
 <script>
 import Utils from '../utils';
-
+import moment from 'moment';
+ 
 export default {
   name: 'Forecast',
   data() {
@@ -50,6 +51,17 @@ export default {
       Utils.getForecastByCityName(this.cityName).then((data) => {
         // eslint-disable-next-line
         console.log(data);
+        const dayList = data.list.reduce((acc, item, list)=> {
+          const addNewDay = (day) => {
+              dayOfWeek: moment(item.data_txt).format('dddd'),
+              formatedData: moment(item.data_txt).format('LL'),
+              items: [item]
+            };
+          if(!acc.length){
+            
+            acc.push([day]);
+          // day.moment(data_txt).format('l');
+        }, []);
         this.city = data.city;
         this.items = data.list;
       });
